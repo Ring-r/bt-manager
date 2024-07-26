@@ -2,10 +2,10 @@
 background task manager
 
 As a user
-I want to have a front-end tool to manage background task
+I want to have a front-end tool to manage background tasks
 So that I can better organize my work
 
-issues
+## issues
 - multiuser.
 - monitor my tasks.
 - remove my task.
