@@ -1,5 +1,5 @@
 # bt-manager
-background task manager
+background tasks manager
 
 As a user
 I want to have a front-end tool to manage background tasks
@@ -25,3 +25,6 @@ So that I can better organize my work
 - use celery as bakground tasks.
 - use fastapi background task (if it is possible).
 - use dramtiq as background tasks.
+
+## references
+- [Asynchronous Tasks with FastAPI and Celery | TestDriven.io](https://testdriven.io/blog/fastapi-and-celery/). it is an example to start.
