@@ -12,6 +12,12 @@ issue 2. view my tasks. task information has `id`, `name`, `description`, `state
 
 issue 3. remove my task. clear unimportant information.
 
+There are follow solutions to implement CRUD operation:
+- after each CRUD operation read all tasks from server and update table;
+- each CRUD operation should return only updated information (identifier of task and changed properties); an UseState of table store whole array of task; use optimized algorithms to update only changed data;
+- each CRUD operation should return only updated information (identifier of task and changed properties); the table contains components which has its own `UseState`; use optimized algorithms to update only changed data by finding related `UseState`s.
+What is the better solution?
+
 issue 4. do not create task if there is not finished task in query of current or other user with the same name and arguments. add existed task to user tasks.
 
 issue 5. do not delete task if there are several users which create task with equal arguments.
