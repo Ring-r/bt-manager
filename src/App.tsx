@@ -52,18 +52,27 @@ function App() {
   function readTasks(ids?: number[]) {
     const newTasks = sendReadTasks(ids)
 
-    setTasks(
-      ids? tasks.filter(task => !ids.includes(task.id)).concat(newTasks): newTasks  // TODO: optimize
-    )
+    const indexIds = new Map(tasks.map((task, index) => [task.id, index]))  // can be optimized by extracting to state or something like it
+    newTasks.forEach(newTask => {
+      const index = indexIds.get(newTask.id);
+      if (typeof index !== 'undefined') {
+        tasks[index] = newTask
+      }
+    })
+    setTasks([...tasks])   // can be optimized when check if something is changed
   }
 
-  // stop task
   function updateTasks(ids?: number[]) {
     const newTasks = sendUpdateTasks(ids)
 
-    setTasks(
-      ids? tasks.filter(task => !ids.includes(task.id)).concat(newTasks): newTasks  // TODO: optimize
-    )
+    const indexIds = new Map(tasks.map((task, index) => [task.id, index]))  // can be optimized by extracting to state or something like it
+    newTasks.forEach(newTask => {
+      const index = indexIds.get(newTask.id);
+      if (typeof index !== 'undefined') {
+        tasks[index] = newTask
+      }
+    })
+    setTasks([...tasks])   // can be optimized when check if something is changed
   }
 
   function deleteTasks(ids?: number[]) {
