@@ -40,7 +40,7 @@ function App() {
 
   function sendDeleteTasks(ids?: number[]) {
     // TODO: temporary mock
-    ids = ids
+    return ids;
   }
 
 
@@ -50,36 +50,23 @@ function App() {
   }
 
   function readTasks(ids?: number[]) {
-    const newTasks = sendReadTasks(ids)
-
-    const indexIds = new Map(tasks.map((task, index) => [task.id, index]))  // can be optimized by extracting to state or something like it
-    newTasks.forEach(newTask => {
-      const index = indexIds.get(newTask.id);
-      if (typeof index !== 'undefined') {
-        tasks[index] = newTask
-      }
-    })
-    setTasks([...tasks])   // can be optimized when check if something is changed
+    const readTasks = sendReadTasks(ids)
+    const readTasksMap = new Map(readTasks.map(task => [task.id, task]));
+    setTasks(tasks.map(task => readTasksMap.get(task.id) || task));
   }
 
   function updateTasks(ids?: number[]) {
-    const newTasks = sendUpdateTasks(ids)
-
-    const indexIds = new Map(tasks.map((task, index) => [task.id, index]))  // can be optimized by extracting to state or something like it
-    newTasks.forEach(newTask => {
-      const index = indexIds.get(newTask.id);
-      if (typeof index !== 'undefined') {
-        tasks[index] = newTask
-      }
-    })
-    setTasks([...tasks])   // can be optimized when check if something is changed
+    const updatedTasks = sendUpdateTasks(ids)
+    const updatedTasksMap = new Map(updatedTasks.map(task => [task.id, task]));
+    setTasks(tasks.map(task => updatedTasksMap.get(task.id) || task));
   }
 
   function deleteTasks(ids?: number[]) {
-    sendDeleteTasks(ids);
+    const deletedIds = sendDeleteTasks(ids);
+    const deletedIdsSet = new Set(deletedIds);
 
     setTasks(
-      ids? tasks.filter(task => !ids.includes(task.id)): []  // TODO: optimize
+      ids? tasks.filter(task => !deletedIdsSet.has(task.id)): []
     )
   }
 
