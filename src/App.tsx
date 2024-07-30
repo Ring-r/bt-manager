@@ -45,30 +45,52 @@ function App() {
 
 
   function createTasks(ids?: number[]) {
-    const newTasks = sendCreateTask(ids)
-    setTasks([ ...tasks, ...newTasks ]);
+    sendCreateTask(ids);
+    readTasks();;
   }
 
-  function readTasks(ids?: number[]) {
-    const readTasks = sendReadTasks(ids)
-    const readTasksMap = new Map(readTasks.map(task => [task.id, task]));
-    setTasks(tasks.map(task => readTasksMap.get(task.id) || task));
+  function readTasks() {
+    const inputTasks = sendReadTasks();
+    setTasks(inputTasks);
   }
 
   function updateTasks(ids?: number[]) {
-    const updatedTasks = sendUpdateTasks(ids)
-    const updatedTasksMap = new Map(updatedTasks.map(task => [task.id, task]));
-    setTasks(tasks.map(task => updatedTasksMap.get(task.id) || task));
+    sendUpdateTasks(ids);
+    readTasks();
   }
 
   function deleteTasks(ids?: number[]) {
+    sendDeleteTasks(ids);
+    readTasks();
+  }
+
+
+  function createTasksOptimized(ids?: number[]) {
+    const inputTasks = sendCreateTask(ids);
+    setTasks([ ...tasks, ...inputTasks ]);
+  }
+
+  function readTasksOptimized(ids?: number[]) {
+    const inputTasks = sendReadTasks(ids);
+    const inputTasksMap = new Map(inputTasks.map(task => [task.id, task]));
+    setTasks(tasks.map(task => inputTasksMap.get(task.id) || task));
+  }
+
+  function updateTasksOptimized(ids?: number[]) {
+    const inputTasks = sendUpdateTasks(ids);
+    const inputTasksMap = new Map(inputTasks.map(task => [task.id, task]));
+    setTasks(tasks.map(task => inputTasksMap.get(task.id) || task));
+  }
+
+  function deleteTasksOptimized(ids?: number[]) {
     const deletedIds = sendDeleteTasks(ids);
     const deletedIdsSet = new Set(deletedIds);
 
     setTasks(
       ids? tasks.filter(task => !deletedIdsSet.has(task.id)): []
-    )
+    );
   }
+
 
   const tasksItems = Object.values(tasks)
   .sort((a, b) => a.id - b.id)
@@ -80,20 +102,20 @@ function App() {
       <td>{task.state}</td>
       <td>{task.link}</td>
       <td>
-        <button type="button" className="btn btn-primary mr-1" onClick={() => createTasks([task.id])}>recreate task</button>
-        <button type="button" className="btn btn-primary mr-1" onClick={() => readTasks([task.id])}>update task info</button>
-        <button type="button" className="btn btn-warning mr-1" onClick={() => updateTasks([task.id])}>stop task</button>
-        <button type="button" className="btn btn-danger mr-1" onClick={() => deleteTasks([task.id])}>delete task</button>
+        <button type="button" className="btn btn-primary mr-1" onClick={() => createTasksOptimized([task.id])}>recreate task</button>
+        <button type="button" className="btn btn-primary mr-1" onClick={() => readTasksOptimized([task.id])}>update task info</button>
+        <button type="button" className="btn btn-warning mr-1" onClick={() => updateTasksOptimized([task.id])}>stop task</button>
+        <button type="button" className="btn btn-danger mr-1" onClick={() => deleteTasksOptimized([task.id])}>delete task</button>
       </td>
     </tr>
   ))
 
   return (
     <>
-      <button type="button" className="btn btn-primary mr-1" onClick={() => createTasks()}>create task</button>
-      <button type="button" className="btn btn-primary mr-1" onClick={() => readTasks()}>update tasks info</button>
-      <button type="button" className="btn btn-warning mr-1" onClick={() => updateTasks()}>stop tasks</button>
-      <button type="button" className="btn btn-danger mr-1" onClick={() => deleteTasks()}>delete tasks</button>
+      <button type="button" className="btn btn-primary mr-1" onClick={() => createTasksOptimized()}>create task</button>
+      <button type="button" className="btn btn-primary mr-1" onClick={() => readTasksOptimized()}>update tasks info</button>
+      <button type="button" className="btn btn-warning mr-1" onClick={() => updateTasksOptimized()}>stop tasks</button>
+      <button type="button" className="btn btn-danger mr-1" onClick={() => deleteTasksOptimized()}>delete tasks</button>
       <table className="table">
         <thead>
           <tr>
