@@ -3,8 +3,16 @@ import './App.css'
 
 let nextId = 0;  // TODO: temporary code; remove after back-end using
 
+interface TaskInfo {
+  id: number;
+  name: string;
+  description: string;
+  state: string;
+  link: string;
+}
+
 function App() {
-  const [tasks, setTasks] = useState<{id: number, name: string, description: string, state: string, link: string}[]>([]);
+  const [tasks, setTasks] = useState<TaskInfo[]>([]);
 
   function sendCreateTask(ids?: number[]) {
     // TODO: temporary mock
@@ -112,10 +120,22 @@ function App() {
 
   return (
     <>
+      <div className="input-group mb-3">
+        <div className="input-group-prepend">
+          <span className="input-group-text" id="inputGroup-sizing-default">endpoint</span>
+        </div>
+        <input type="text" className="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" />
+      </div>
+      <div className="input-group mb-3">
+        <div className="input-group-prepend">
+          <span className="input-group-text" id="inputGroup-sizing-default">user id</span>
+        </div>
+        <input type="text" className="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" />
+      </div>
       <button type="button" className="btn btn-primary mr-1" onClick={() => createTasksOptimized()}>create task</button>
-      <button type="button" className="btn btn-primary mr-1" onClick={() => readTasksOptimized()}>update tasks info</button>
-      <button type="button" className="btn btn-warning mr-1" onClick={() => updateTasksOptimized()}>stop tasks</button>
-      <button type="button" className="btn btn-danger mr-1" onClick={() => deleteTasksOptimized()}>delete tasks</button>
+      <button type="button" className="btn btn-primary mr-1" onClick={() => readTasksOptimized()}>update all tasks info</button>
+      <button type="button" className="btn btn-warning mr-1" onClick={() => updateTasksOptimized()}>stop all tasks</button>
+      <button type="button" className="btn btn-danger mr-1" onClick={() => deleteTasksOptimized()}>delete all tasks</button>
       <table className="table">
         <thead>
           <tr>

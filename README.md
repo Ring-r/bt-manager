@@ -30,3 +30,12 @@ task information has `id`, `name`, `description`, `state`, `error` (if it is pre
 
 ## references
 - [Asynchronous Tasks with FastAPI and Celery | TestDriven.io](https://testdriven.io/blog/fastapi-and-celery/). it is an example to start.
+
+##
+it is better to update `flower`:
+- [ ] return data (json) instead of html.
+- [ ] researc progress update push request. is it used websocket or something like it?
+- [ ] change or implement code to use websocket for something (for example, for progress).
+
+- [ ] implement code to make bulk request which call separate functions by pathes and constructe responce as an agragaton of all requests. add this information to README or dev-note. check and improve text.
+i thinks (but i don't do so) it is necessary to optimize the count of request between client and server. but how often do we need this? and do we recreate something like graphql?
